@@ -1,36 +1,23 @@
 <!doctype html>
 <html>
 <head>
+    <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover' />
     <meta charset='utf-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover'>
     <link rel="stylesheet" type="text/css" href="styles.css">
     <link rel="manifest" href="manifest.json">
-    <title>Art As Activism</title>
+    <style></style>
+    <title>Art-Activism</title>
+    <script type='module' src="files/assets/263942564/1/create-extensions-sdk.mjs"></script>
+
+    <!-- import map -->
+    <script type="importmap">
+      {
+  "imports": {}
+}
+    </script>
+
 </head>
 <body>
-    <canvas id="application-canvas"></canvas>
-
-    <script type="module">
-        import { createApplication } from './js/index.mjs';
-
-        // 1. Manually load the config (This replaces the old __settings__.js)
-        fetch('./config.json')
-            .then(response => response.json())
-            .then(config => {
-                // 2. Start the App
-                return createApplication(config);
-            })
-            .then(app => {
-                app.start();
-                
-                // 3. Load your buttons/logic AFTER the engine is running
-                const script = document.createElement('script');
-                script.src = 'game-scripts.js'; 
-                document.body.appendChild(script);
-            })
-            .catch(err => {
-                console.error("Initialization failed:", err);
-            });
-    </script>
+    <script type='module' src="js/index.mjs"></script>
 </body>
 </html>
