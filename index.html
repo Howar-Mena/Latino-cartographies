@@ -6,19 +6,31 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="favicon.ico">
-    
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#000000">
-    
     <title>Art As Activism</title>
-    <script src="js/index.mjs" type="module"></script>
-    <script src="config.json" type="application/json"></script>
 </head>
 <body>
-    <script src="__start__.js"></script>
-    <script src="__loading__.js"></script>
-    
-    <script src="game-scripts.js"></script>
+    <canvas id="application-canvas"></canvas>
+
+    <script type="module">
+        // Points to your modern engine folder
+        import { createApplication } from './js/index.mjs';
+
+        async function launch() {
+            // 1. Fetch the scene config
+            const configResponse = await fetch('./config.json');
+            const config = await configResponse.json();
+
+            // 2. Start the App
+            const app = await createApplication(config);
+            app.start();
+
+            // 3. ONLY NOW load the game scripts so 'pc' is defined
+            const script = document.createElement('script');
+            script.src = 'game-scripts.js'; 
+            document.body.appendChild(script);
+        }
+
+        launch().catch(console.error);
+    </script>
 </body>
 </html>
