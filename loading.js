@@ -43,15 +43,15 @@ pc.script.createLoadingScreen(function (app) {
     Object.assign(typewriter.style, {
         fontFamily: `'Montserrat', 'Arial', sans-serif`,
         fontSize: '1.1em',
-        color: '#333',                    // Slightly softer black
-        fontWeight: '400',                // Light weight (Montserrat supports 100-900)
-        letterSpacing: '0.5px',           // Add some letter spacing
+        color: '#333',
+        fontWeight: '400',
+        letterSpacing: '0.5px',
         marginTop: '15px',
         textAlign: 'center',
         whiteSpace: 'pre-line',
         minHeight: '28px',
         opacity: '0',
-        lineHeight: '1.8'                // Better line spacing
+        lineHeight: '1.8'
     });
     splash.appendChild(typewriter);
 
@@ -80,7 +80,7 @@ pc.script.createLoadingScreen(function (app) {
     splash.appendChild(container);
   };
 
-  // HIDE SPLASH WITH MINIMUM 10 SECOND DELAY
+  // HIDE SPLASH WITH MINIMUM DELAY
   const hideSplash = function () {
     const elapsed = Date.now() - loadingStartTime;
     const delayNeeded = 6000 - elapsed;
@@ -88,12 +88,13 @@ pc.script.createLoadingScreen(function (app) {
     const performHide = () => {
       const wrapper = document.getElementById('application-splash-wrapper');
       if (wrapper) {
+        // FIX: Ensure the wrapper is unclickable even if removal fails
+        wrapper.style.display = 'none'; 
         if (wrapper.parentElement) wrapper.parentElement.removeChild(wrapper);
       }
     };
 
     if (delayNeeded > 0) {
-      // Extend display time so total is 10 seconds
       setTimeout(performHide, delayNeeded);
     } else {
       performHide();
@@ -112,15 +113,11 @@ pc.script.createLoadingScreen(function (app) {
       `@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');`,
       'body { background-color: white; margin: 0; overflow: hidden; }',
       '#application-splash-wrapper { position:absolute; top:0; left:0; height:100%; width:100%; background-color:white; display:flex; align-items:center; justify-content:center; flex-direction:column; z-index:100; }',
-
       '@keyframes fadeIn { 0% {opacity:0;} 100% {opacity:1;} }',
       '@keyframes fadeZoomIn { 0% {opacity:0; transform:scale(0.6);} 100% {opacity:1; transform:scale(1);} }',
-
       '#progress-bar-container { margin-top:22px; height:10px; width:260px; background:#d0d0d0; border-radius:8px; overflow:hidden; }',
       '#progress-bar { width:0%; height:100%; background:black; transition:width 0.3s ease; }',
-
       '#typewriter-text { opacity:0; transition: opacity 0.5s ease; }',
-
       '@media(max-width:768px){ img[alt="Loading Logo"]{ width:200px;} #progress-bar-container{width:200px;} #typewriter-text{font-size:1em; letter-spacing:0.3px;} }',
       '@media(max-width:480px){ img[alt="Loading Logo"]{ width:160px;} #progress-bar-container{width:160px;} #typewriter-text{font-size:0.9em; letter-spacing:0.2px; line-height:1.6;} }'
     ].join('\n');
@@ -130,11 +127,9 @@ pc.script.createLoadingScreen(function (app) {
     document.head.appendChild(style);
   };
 
-  // RUN LOADING SCREEN
   createCss();
   showSplash();
 
-  // Hook into PlayCanvas loading events
   app.on('preload:progress', setProgress);
   app.on('start', () => {
     loadingComplete = true;
