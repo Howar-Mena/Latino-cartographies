@@ -1,23 +1,24 @@
 <!doctype html>
 <html>
 <head>
-    <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover' />
+    <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover'>
     <meta charset='utf-8'>
     <link rel="stylesheet" type="text/css" href="styles.css">
     <link rel="manifest" href="manifest.json">
-    <style></style>
+    <link rel="icon" href="favicon.ico">
+    
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#000000">
+    
     <title>Art As Activism</title>
-    <script type='module' src="files/assets/263942564/1/create-extensions-sdk.mjs"></script>
-
-    <!-- import map -->
-    <script type="importmap">
-      {
-  "imports": {}
-}
-    </script>
-
+    <script src="js/index.mjs" type="module"></script>
+    <script src="config.json" type="application/json"></script>
 </head>
 <body>
-    <script type='module' src="js/index.mjs"></script>
+    <script src="__start__.js"></script>
+    <script src="__loading__.js"></script>
+    
+    <script src="game-scripts.js"></script>
 </body>
 </html>
