@@ -1,43 +1,36 @@
-<<!doctype html>
+<!doctype html>
 <html>
 <head>
-    <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover'>
     <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover'>
     <link rel="stylesheet" type="text/css" href="styles.css">
     <link rel="manifest" href="manifest.json">
-    <link rel="icon" href="favicon.ico">
     <title>Art As Activism</title>
 </head>
 <body>
     <canvas id="application-canvas"></canvas>
 
     <script type="module">
-        // Import the engine from your js folder
         import { createApplication } from './js/index.mjs';
 
-        async function startApp() {
-            try {
-                // 1. Load the config
-                const response = await fetch('./config.json');
-                if (!response.ok) throw new Error('Config not found');
-                const config = await response.json();
-
-                // 2. Create and Start the App
-                const app = await createApplication(config);
+        // 1. Manually load the config (This replaces the old __settings__.js)
+        fetch('./config.json')
+            .then(response => response.json())
+            .then(config => {
+                // 2. Start the App
+                return createApplication(config);
+            })
+            .then(app => {
                 app.start();
-
-                // 3. Load your interactivity scripts ONLY after app starts
+                
+                // 3. Load your buttons/logic AFTER the engine is running
                 const script = document.createElement('script');
-                script.src = './game-scripts.js'; // Make sure the file in your folder is named exactly this
+                script.src = 'game-scripts.js'; 
                 document.body.appendChild(script);
-
-                console.log("App initialized successfully");
-            } catch (err) {
-                console.error("Critical Start Error:", err);
-            }
-        }
-
-        startApp();
+            })
+            .catch(err => {
+                console.error("Initialization failed:", err);
+            });
     </script>
 </body>
 </html>
