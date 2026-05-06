@@ -5,19 +5,37 @@
     <meta charset='utf-8'>
     <link rel="stylesheet" type="text/css" href="styles.css">
     <link rel="manifest" href="manifest.json">
-    <style></style>
-    <title>Art-Activism</title>
-    <script type='module' src="files/assets/263942564/1/create-extensions-sdk.mjs"></script>
-
-    <!-- import map -->
-    <script type="importmap">
-      {
-  "imports": {}
-}
-    </script>
-
+    <title>Art As Activism</title>
 </head>
 <body>
-    <script type='module' src="js/index.mjs"></script>
+    <canvas id="application-canvas"></canvas>
+
+    <script type="module">
+        import { createApplication } from './js/index.mjs';
+
+        async function start() {
+            try {
+                // Load your project configuration
+                const response = await fetch('config.json');
+                const config = await response.json();
+
+                // Initialize the app
+                const app = await createApplication(config);
+                app.start();
+
+                // 2. Load your Interactivity Scripts
+                // IMPORTANT: Ensure the file in your folder is named 'game-scripts.js'
+                const script = document.createElement('script');
+                script.src = 'game-scripts.js'; 
+                document.body.appendChild(script);
+
+                console.log("PlayCanvas App Started");
+            } catch (e) {
+                console.error("Critical Error:", e);
+            }
+        }
+
+        start();
+    </script>
 </body>
 </html>
