@@ -1,4 +1,4 @@
-<!doctype html>
+<<!doctype html>
 <html>
 <head>
     <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover'>
@@ -12,25 +12,32 @@
     <canvas id="application-canvas"></canvas>
 
     <script type="module">
-        // Points to your modern engine folder
+        // Import the engine from your js folder
         import { createApplication } from './js/index.mjs';
 
-        async function launch() {
-            // 1. Fetch the scene config
-            const configResponse = await fetch('./config.json');
-            const config = await configResponse.json();
+        async function startApp() {
+            try {
+                // 1. Load the config
+                const response = await fetch('./config.json');
+                if (!response.ok) throw new Error('Config not found');
+                const config = await response.json();
 
-            // 2. Start the App
-            const app = await createApplication(config);
-            app.start();
+                // 2. Create and Start the App
+                const app = await createApplication(config);
+                app.start();
 
-            // 3. ONLY NOW load the game scripts so 'pc' is defined
-            const script = document.createElement('script');
-            script.src = 'game-scripts.js'; 
-            document.body.appendChild(script);
+                // 3. Load your interactivity scripts ONLY after app starts
+                const script = document.createElement('script');
+                script.src = './game-scripts.js'; // Make sure the file in your folder is named exactly this
+                document.body.appendChild(script);
+
+                console.log("App initialized successfully");
+            } catch (err) {
+                console.error("Critical Start Error:", err);
+            }
         }
 
-        launch().catch(console.error);
+        startApp();
     </script>
 </body>
 </html>
